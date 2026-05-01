@@ -4,6 +4,7 @@ import com.smartlink.smartlink.model.ShortUrl;
 import com.smartlink.smartlink.service.UrlService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.http.HttpStatus;
 
 @RestController
 @RequestMapping("/api")
@@ -33,4 +34,9 @@ public ResponseEntity<ShortUrl> getStats(@PathVariable String shortCode) {
     ShortUrl shortUrl = urlService.getStats(shortCode);
     return ResponseEntity.ok(shortUrl);
 }
+@ExceptionHandler(RuntimeException.class)
+public ResponseEntity<String> handleNotFound(RuntimeException ex) {
+    return ResponseEntity.status(HttpStatus.NOT_FOUND).body(ex.getMessage());
+}
+
 }
