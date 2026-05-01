@@ -28,4 +28,9 @@ public class UrlController {
                 .header("Location", shortUrl.getOriginalUrl())
                 .build();
     }
+ @GetMapping("/stats/{shortCode}")
+public ResponseEntity<ShortUrl> getStats(@PathVariable String shortCode) {
+    ShortUrl shortUrl = urlService.getStats(shortCode);
+    return ResponseEntity.ok(shortUrl);
+}
 }

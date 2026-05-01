@@ -22,10 +22,12 @@ public class UrlService {
         return repository.save(shortUrl);
     }
 
-    public ShortUrl getByShortCode(String shortCode) {
-        return repository.findByShortCode(shortCode)
-                .orElseThrow(() -> new RuntimeException("Link bulunamadı"));
-    }
+   public ShortUrl getByShortCode(String shortCode) {
+    ShortUrl shortUrl = repository.findByShortCode(shortCode)
+            .orElseThrow(() -> new RuntimeException("Link bulunamadı"));
+    shortUrl.setClickCount(shortUrl.getClickCount() + 1);
+    return repository.save(shortUrl);
+}
 
     private String generateCode() {
         String chars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
@@ -36,4 +38,8 @@ public class UrlService {
         }
         return sb.toString();
     }
+    public ShortUrl getStats(String shortCode) {
+    return repository.findByShortCode(shortCode)
+            .orElseThrow(() -> new RuntimeException("Link bulunamadı"));
+}
 }
